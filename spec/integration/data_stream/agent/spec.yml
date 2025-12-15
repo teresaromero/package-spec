@@ -26,5 +26,6 @@ spec:
           type: file
           sizeLimit: 2MB
           pattern: '^.+\.yml\.hbs$'
+          contentMediaType: "application/x-hbs"
           required: true
           allowLink: true

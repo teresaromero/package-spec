@@ -28,3 +28,4 @@ spec:
           pattern: '^.+\.yml\.hbs$'
           required: true
           allowLink: true
+          contentMediaType: "application/x-hbs"

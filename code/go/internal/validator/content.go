@@ -10,7 +10,12 @@ import (
 	"fmt"
 	"io/fs"
 
+	"github.com/aymerick/raymond"
 	"github.com/elastic/package-spec/v3/code/go/internal/spectypes"
+)
+
+var (
+	errInvalidHandlebarsTemplate = errors.New("invalid handlebars template")
 )
 
 func validateContentType(fsys fs.FS, path string, contentType spectypes.ContentType) error {
@@ -23,6 +28,16 @@ func validateContentType(fsys fs.FS, path string, contentType spectypes.ContentT
 			if err != nil {
 				return err
 			}
+		}
+	case "application/x-hbs":
+		content, err := fs.ReadFile(fsys, path)
+		if err != nil {
+			return fmt.Errorf("error reading handlebars template file: %w", err)
+		}
+		// Parse from content string instead of file path
+		_, err = raymond.Parse(string(content))
+		if err != nil {
+			return fmt.Errorf("%w: %w", errInvalidHandlebarsTemplate, err)
 		}
 	case "application/json":
 	case "text/markdown":
