@@ -60,11 +60,11 @@ deprecated:
 type: integration
 policy_templates:
   - deprecated:
-	  since: '1.0.0'
-	  description: 'This policy template is deprecated.'
-	  replaced_by:
-	    package: 'new-integration'
-	    policy_template: 'new-policy-template'
+      since: '1.0.0'
+      description: 'This policy template is deprecated.'
+      replaced_by:
+        package: 'new-integration'
+        policy_template: 'new-policy-template'
 `), 0o644)
 		require.NoError(t, err)
 
