@@ -72,11 +72,6 @@ func NewFromPath(mode Mode, packageRootPath string, opts ...Option) (*Validator,
 // Validation always runs in ModeBuild; source-only artifacts (_dev/, .link files,
 // external: ecs references) are therefore rejected.
 //
-// NOTE: ModeBuild-specific validation rules are not yet implemented; ModeBuild
-// and ModeLegacy currently produce identical rule sets. This is intentional —
-// the mode is set here so that future PRs can attach build-only rules without
-// changing the public API.
-//
 // The returned Validator owns the underlying zip reader; calling Validate closes it.
 // Do not call Validate more than once on a Validator created by NewFromZip.
 func NewFromZip(zipPath string, opts ...Option) (_ *Validator, err error) {
