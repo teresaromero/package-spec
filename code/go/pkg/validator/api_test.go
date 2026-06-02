@@ -74,8 +74,8 @@ func applyPackageFilter(t *testing.T, pkgPath string, err error) error {
 	if err == nil {
 		return nil
 	}
-	verrs, ok := err.(specerrors.ValidationErrors)
-	if !ok {
+	var verrs specerrors.ValidationErrors
+	if !errors.As(err, &verrs) {
 		return err
 	}
 	filterConfig, filterErr := specerrors.LoadConfigFilter(os.DirFS(pkgPath))
