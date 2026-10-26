@@ -619,24 +619,6 @@ func Test_ValidateFromPath(t *testing.T) {
 			"elasticsearch/esql_view/whitespace_query.yml",
 			[]string{"query must not be empty or whitespace-only (SVR00013)"},
 		},
-		"bad_workflow_integration": {
-			"kibana/workflow/bad_workflow_integration-flow.yml",
-			[]string{
-				"field (root): steps is required",
-			},
-		},
-		"bad_workflow_enabled_integration": {
-			"kibana/workflow/bad_workflow_enabled_integration-flow.yml",
-			[]string{
-				"workflow should set enabled: false; package workflows are installed disabled",
-			},
-		},
-		"bad_workflow_missing_enabled_integration": {
-			"kibana/workflow/bad_workflow_missing_enabled_integration-flow.yml",
-			[]string{
-				"field (root): enabled is required",
-			},
-		},
 		"bad_content_duplicate_tags": {
 			"kibana/tags.yml",
 			[]string{"duplicate tag name 'Tag One' found (SVR00007)"},
@@ -776,11 +758,6 @@ func TestValidateItemNotAllowed(t *testing.T) {
 		"bad_content_dev_deploy_variants": {
 			"_dev": []string{
 				"deploy",
-			},
-		},
-		"bad_workflow_filename_integration": {
-			"kibana/workflow": []string{
-				"Wrong_Name.yml",
 			},
 		},
 	}
@@ -1300,6 +1277,56 @@ func TestValidateIngestPipelines(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestValidateWorkflows(t *testing.T) {
+	pkgRootPath := path.Join("..", "..", "..", "..", "test", "packages", "bad_workflow_integration")
+	workflowsPath := path.Join(pkgRootPath, "kibana", "workflow")
+
+	invalidWorkflows := map[string][]string{
+		"bad_workflow_integration-missing-steps.yml": {
+			"field (root): steps is required",
+		},
+		"bad_workflow_integration-empty-steps.yml": {
+			"field steps: Array must have at least 1 items",
+		},
+		"bad_workflow_integration-invalid-step.yml": {
+			"field steps.0: type is required",
+		},
+		"bad_workflow_integration-invalid-trigger.yml": {
+			"field triggers.0: type is required",
+		},
+		"bad_workflow_integration-missing-enabled.yml": {
+			"field (root): enabled is required",
+		},
+		"bad_workflow_integration-enabled.yml": {
+			"workflow should set enabled: false; package workflows are installed disabled",
+		},
+	}
+
+	expectedErrors := []string{
+		fmt.Sprintf("item [bad_workflow_integration-invalid_filename.yml] is not allowed in folder [%s]", workflowsPath),
+	}
+	for file, errMsgs := range invalidWorkflows {
+		errPrefix := fmt.Sprintf("file \"%s\" is invalid: ", path.Join(workflowsPath, file))
+		for _, errMsg := range errMsgs {
+			expectedErrors = append(expectedErrors, errPrefix+errMsg)
+		}
+	}
+
+	errs := ValidateFromPath(pkgRootPath)
+	require.Error(t, errs)
+	vErrs, ok := errs.(specerrors.ValidationErrors)
+	require.True(t, ok)
+
+	var errMessages []string
+	for _, vErr := range vErrs {
+		errMessages = append(errMessages, vErr.Error())
+	}
+	for _, expectedErr := range expectedErrors {
+		assert.Contains(t, errMessages, expectedErr)
+	}
+	assert.Len(t, errMessages, len(expectedErrors))
 }
 
 func TestValidateForbiddenDataStreamName(t *testing.T) {

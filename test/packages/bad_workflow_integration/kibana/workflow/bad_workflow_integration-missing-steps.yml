@@ -1,5 +1,4 @@
-name: wrong
+name: Missing steps
 enabled: false
 triggers:
   - type: manual
-steps: []

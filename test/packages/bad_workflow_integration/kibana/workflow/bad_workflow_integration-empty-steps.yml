@@ -1,4 +1,5 @@
-name: bad_workflow_integration-flow
+name: Empty steps
 enabled: false
 triggers:
   - type: manual
+steps: []

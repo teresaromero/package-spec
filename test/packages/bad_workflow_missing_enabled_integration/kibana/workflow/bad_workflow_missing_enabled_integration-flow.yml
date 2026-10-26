@@ -1,4 +1,0 @@
-name: bad_workflow_missing_enabled_integration-flow
-triggers:
-  - type: manual
-steps: []
