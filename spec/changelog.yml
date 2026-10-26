@@ -12,7 +12,7 @@
     - description: Add support for Kibana `workflow` assets in integration packages.
       type: enhancement
       link: https://github.com/elastic/package-spec/pull/1271
-    - description: "Warn (SVR00014) when a Kibana workflow sets `enabled: true`."
+    - description: "Reject Kibana workflows that set `enabled: true`."
       type: enhancement
       link: https://github.com/elastic/package-spec/pull/1271
 - version: 3.7.0

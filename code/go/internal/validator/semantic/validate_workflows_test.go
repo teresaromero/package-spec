@@ -53,7 +53,6 @@ func TestValidateWorkflowsEnabled(t *testing.T) {
 		errs := ValidateWorkflowsEnabled(fsys)
 		require.Len(t, errs, 1)
 		assert.Contains(t, errs[0].Error(), "workflow should set enabled: false")
-		assert.Contains(t, errs[0].Error(), "SVR00014")
 	})
 
 	t.Run("non-yml files are ignored", func(t *testing.T) {

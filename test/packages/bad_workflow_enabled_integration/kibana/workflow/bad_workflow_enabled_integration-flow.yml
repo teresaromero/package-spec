@@ -1,4 +1,4 @@
-name: warn_workflow_enabled-flow
+name: bad_workflow_enabled_integration-flow
 enabled: true
 triggers:
   - type: manual

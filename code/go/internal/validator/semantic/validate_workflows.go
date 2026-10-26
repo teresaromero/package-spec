@@ -6,7 +6,6 @@ package semantic
 
 import (
 	"errors"
-	"fmt"
 	"io/fs"
 	"path"
 
@@ -22,11 +21,8 @@ type workflow struct {
 	Enabled *bool `yaml:"enabled"`
 }
 
-// ValidateWorkflowsEnabled warns when a workflow explicitly sets enabled: true.
+// ValidateWorkflowsEnabled reports an error when a workflow explicitly sets enabled: true.
 // Fleet always installs package workflows disabled.
-//
-// TODO: temporary rule while workflows are imported by hand; revisit/remove once
-// elastic-package supports exporting workflows (elastic/elastic-package#3475).
 func ValidateWorkflowsEnabled(fsys fspath.FS) specerrors.ValidationErrors {
 	entries, err := fs.ReadDir(fsys, workflowFolder)
 	if err != nil {
@@ -59,10 +55,8 @@ func ValidateWorkflowsEnabled(fsys fspath.FS) specerrors.ValidationErrors {
 		}
 
 		if w.Enabled != nil && *w.Enabled {
-			errs = append(errs, specerrors.NewStructuredError(
-				fmt.Errorf("file \"%s\" is invalid: workflow should set enabled: false; package workflows are installed disabled", fullPath),
-				specerrors.CodeWorkflowEnabled,
-			))
+			errs = append(errs, specerrors.NewStructuredErrorf(
+				"file \"%s\" is invalid: workflow should set enabled: false; package workflows are installed disabled", fullPath))
 		}
 	}
 

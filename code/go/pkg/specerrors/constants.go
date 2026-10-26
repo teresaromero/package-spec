@@ -29,5 +29,4 @@ const (
 	CodeUseOtelSuffixWithInput              = "SVR00011"
 	CodeAgentVersionCondition               = "SVR00012"
 	CodeEsqlViewValidation                  = "SVR00013"
-	CodeWorkflowEnabled                     = "SVR00014"
 )

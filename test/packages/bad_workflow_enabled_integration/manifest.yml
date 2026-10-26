@@ -1,5 +1,5 @@
 format_version: 3.6.6
-name: warn_workflow_enabled
+name: bad_workflow_enabled_integration
 title: "New Package"
 version: 0.0.1
 source:
@@ -10,7 +10,7 @@ categories:
   - custom
 conditions:
   kibana:
-    version: "^9.5.3"
+    version: "^9.7.0"
   elastic:
     subscription: "basic"
 screenshots:
