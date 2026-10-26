@@ -631,6 +631,12 @@ func Test_ValidateFromPath(t *testing.T) {
 				"workflow should set enabled: false; package workflows are installed disabled",
 			},
 		},
+		"bad_workflow_missing_enabled_integration": {
+			"kibana/workflow/bad_workflow_missing_enabled_integration-flow.yml",
+			[]string{
+				"field (root): enabled is required",
+			},
+		},
 		"bad_content_duplicate_tags": {
 			"kibana/tags.yml",
 			[]string{"duplicate tag name 'Tag One' found (SVR00007)"},

@@ -6,11 +6,14 @@ spec:
   properties:
     name:
       description: Name of the workflow
+    enabled:
+      description: Whether the workflow is enabled. Kibana enables workflows that omit it, so packages must set it to false.
     triggers:
       description: Triggers that start the workflow
     steps:
       description: Steps executed by the workflow
   required:
     - name
+    - enabled
     - triggers
     - steps
