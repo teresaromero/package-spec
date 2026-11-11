@@ -881,11 +881,6 @@ func TestValidateItemNotAllowed(t *testing.T) {
 				"alerting_rule_template",
 			},
 		},
-		"bad_workflow_format_version": {
-			"kibana": []string{
-				"workflow",
-			},
-		},
 		"bad_content_dev_deploy_variants": {
 			"_dev": []string{
 				"deploy",
